@@ -1,73 +1,44 @@
-fun mergeSort(array: ArrayList<Int>): ArrayList<Int> {
-
-    if (array.size < 1) {
-        return array
+fun mergeSort(list: List<Int>): List<Int> {
+    if (list.size <= 1) {
+        return list
     }
 
-    val pivot: Int = array.size / 2
-    val left: ArrayList<Int> = arrayListOf(pivot)
-    val right: ArrayList<Int> = arrayListOf(array.size-pivot)
+    val middle = list.size / 2
+    var left = list.subList(0,middle);
+    var right = list.subList(middle,list.size);
 
-    for (i in 0..pivot-1) {
-        left[i] = array[i]
-    }
-
-    for (i in pivot..array.size) {
-        right[i-pivot] = array[i]
-    }
-
-    mergeSort(left)
-    mergeSort(right)
-    merge(array, left, right)
-
+    return merge(mergeSort(left), mergeSort(right))
 }
+fun merge(left: List<Int>, right: List<Int>): List<Int>  {
+    var indexLeft = 0
+    var indexRight = 0
+    var newList : MutableList<Int> = mutableListOf()
 
-
-fun merge(targetArray: ArrayList<Int>, items1: ArrayList<Int>, items2: ArrayList<Int>) {
-
-    var array1MinIndex: Int = 0
-    var array2MinIndex: Int = 0
-
-    var targetArrayMinIndex: Int = 0
-
-
-    while (array1MinIndex < items1.size && array2MinIndex < items2.size) {
-
-        if (items1[array1MinIndex] <= items2[array2MinIndex]) {
-
-            targetArray[targetArrayMinIndex] = items1[array1MinIndex]
-            array1MinIndex++
-
+    while (indexLeft < left.count() && indexRight < right.count()) {
+        if (left[indexLeft] <= right[indexRight]) {
+            newList.add(left[indexLeft])
+            indexLeft++
         } else {
-
-            targetArray[targetArrayMinIndex] = items2[array1MinIndex]
-            array2MinIndex++
-
+            newList.add(right[indexRight])
+            indexRight++
         }
     }
 
-    while (array1MinIndex < items1.size) {
-
-        targetArray[targetArrayMinIndex] = items1[array1MinIndex]
-        array1MinIndex++
-
+    while (indexLeft < left.size) {
+        newList.add(left[indexLeft])
+        indexLeft++
     }
 
-    while (array2MinIndex < items2.size) {
-
-        targetArray[targetArrayMinIndex] = items2[array2MinIndex]
-        array2MinIndex++
-
+    while (indexRight < right.size) {
+        newList.add(right[indexRight])
+        indexRight++
     }
-
-
-
+    return newList;
 }
 
-fun main() {
-
-    val array: ArrayList<Int> = arrayListOf(8, 4, 5, 2, 1, 9)
-
-    println(mergeSort(array))
-
+fun main(args: Array<String>) {
+    val numbers = mutableListOf(38,27,43,3,9,82,10)
+    val sortedList = mergeSort(numbers)
+    println("Unsorted: $numbers")
+    println("Sorted: $sortedList")
 }
