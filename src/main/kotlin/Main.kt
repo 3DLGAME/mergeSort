@@ -9,6 +9,7 @@ fun mergeSort(list: List<Int>): List<Int> {
 
     return merge(mergeSort(left), mergeSort(right))
 }
+
 fun merge(left: List<Int>, right: List<Int>): List<Int>  {
     var indexLeft = 0
     var indexRight = 0
